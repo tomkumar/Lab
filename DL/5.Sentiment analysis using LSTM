@@ -1,0 +1,26 @@
+# 5.Sentiment analysis using LSTM 
+import numpy as np
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, LSTM, Dense
+from tensorflow.keras.utils import to_categorical
+from sklearn.model_selection import train_test_split
+
+texts = ["I loved this movie!", "Terrible acting.", "Amazing film.", "Waste of time.",
+         "Absolutely brilliant!", "Worst ever.", "Okay movie.", "Great experience.",
+         "So boring.", "I enjoyed it."]
+labels = np.array([1,0,1,0,1,0,1,1,0,1])
+
+tok = Tokenizer(num_words=5000, oov_token='<OOV>'); tok.fit_on_texts(texts)
+X = pad_sequences(tok.texts_to_sequences(texts), maxlen=50)
+y = to_categorical(labels)
+Xtr,Xte,ytr,yte = train_test_split(X,y,test_size=0.2)
+
+model = Sequential([Embedding(5000,16),LSTM(64),Dense(2,activation='softmax')])
+model.compile(loss='categorical_crossentropy',optimizer='adam',metrics=['acc'])
+model.fit(Xtr,ytr,epochs=5,verbose=0)
+
+print(" Accuracy:",model.evaluate(Xte,yte,verbose=0)[1])
+p=model.predict(pad_sequences(tok.texts_to_sequences(["This movie is great!"]),maxlen=50))
+print("Sentiment:",["Negative","Positive"][np.argmax(p)])
