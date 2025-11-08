@@ -1,0 +1,18 @@
+#2.Character recognition using CNN
+import numpy as np, tensorflow as tf, matplotlib.pyplot as plt
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.utils import to_categorical
+
+# Load and preprocess data
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+x_train, x_test = x_train[..., None]/255.0, x_test[..., None]/255.0
+y_train, y_test = to_categorical(y_train, 10), to_categorical(y_test, 10)
+
+# Visualize few samples
+plt.figure(figsize=(15,3))
+for i in range(5):
+    plt.subplot(1,5,i+1)
+    plt.imshow(x_train[i].squeeze(), cmap='gray')
+    plt.title(f"Label: {np.argmax(y_train[i])}")
+    plt.axis('off')
+plt.show()
