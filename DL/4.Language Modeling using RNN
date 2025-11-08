@@ -1,0 +1,9 @@
+#4Language Modeling using RNN
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+tok = GPT2Tokenizer.from_pretrained("distilgpt2")
+model = GPT2LMHeadModel.from_pretrained("distilgpt2")
+t = "Once upon a time, in a land far away, there was a king"
+ids = tok(t, return_tensors='pt').input_ids
+out = model.generate(ids, max_length=len(ids[0])+50, do_sample=True, top_k=50, top_p=0.95,
+                     pad_token_id=tok.eos_token_id)
+print(tok.decode(out[0], skip_special_tokens=True))
