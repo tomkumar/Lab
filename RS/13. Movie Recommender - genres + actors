@@ -1,0 +1,9 @@
+# 13.Movie Recommender - genres + actors
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+movies=["Action Adventure Actor1 Actor2","Comedy Romance Actor3 Actor4",
+        "Action Thriller Actor1 Actor5","Romance Drama Actor4 Actor6","Comedy Actor3 Actor7"]
+tfidf=TfidfVectorizer().fit_transform(movies)
+sim=cosine_similarity(tfidf)
+print("Recommended:", [movies[i] for i in sim[0].argsort()[::-1][1:3]])
