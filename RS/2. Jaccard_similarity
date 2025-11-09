@@ -1,0 +1,12 @@
+#2.jaccard_similarity
+from sklearn.metrics import jaccard_score
+import numpy as np
+
+users = np.array([[1,0,1,1,0],[1,1,1,0,0],[0,1,0,1,1],[1,0,1,0,1]])
+t = 0
+
+similarities = [(i+1, jaccard_score(users[t], users[i])) for i in range(len(users)) if i != t]
+most = max(similarities, key=lambda x: x[1])
+
+print("Jaccard Similarities:", similarities)
+print(f"Most similar to User {t+1} is User {most[0]} with similarity {most[1]:.2f}")
