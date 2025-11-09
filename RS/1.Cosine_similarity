@@ -1,1 +1,17 @@
+#1.cosine similarity
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+# Example: users' movie ratings (rows = users, columns = movies)
+ratings = np.array([
+    [4, 0, 3, 5],  # User 1
+    [5, 1, 4, 4],  # User 2
+    [0, 0, 5, 3]   # User 3
+])
+
+# Compute cosine similarity between users
+similarity = cosine_similarity(ratings)
+
+print("Cosine Similarity Between Users:")
+print(similarity)
 
