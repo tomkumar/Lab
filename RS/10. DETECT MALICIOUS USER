@@ -1,0 +1,12 @@
+# 10 Detect malicious users (short)
+import numpy as np
+from sklearn.ensemble import IsolationForest
+
+np.random.seed(0)
+real=np.random.choice([0,1,2,3,4,5],(50,10),p=[0.3,0.14,0.14,0.14,0.14,0.14])
+fake=np.random.choice([0,1,2,3],(5,10)); fake[:,0]=5
+R=np.vstack([real,fake])
+
+X=np.hstack([R.mean(1).reshape(-1,1), R.std(1).reshape(-1,1)])
+pred=(IsolationForest(contamination=5/55,random_state=0).fit_predict(X)==-1).astype(int)
+print("Detected indices:", np.where(pred==1)[0])
