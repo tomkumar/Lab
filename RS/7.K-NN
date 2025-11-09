@@ -1,0 +1,16 @@
+# k-NN Item-based Recommender
+import numpy as np
+from sklearn.neighbors import NearestNeighbors
+
+# Example: item features (rows = items, cols = features)
+items = np.array([[1,0,1],
+                  [0,1,1],
+                  [1,1,0],
+                  [0,0,1]])
+
+# Train k-NN
+model = NearestNeighbors(n_neighbors=2, metric='cosine').fit(items)
+
+# Recommend for first item
+dist, idx = model.kneighbors([items[0]])
+print("Similar items to Item 1:", idx[0][1:])
